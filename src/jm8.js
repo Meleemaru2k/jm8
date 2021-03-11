@@ -1,6 +1,7 @@
 const jm8 = {
   /*
-    Description Goes Here
+    Cookie Manipulation
+    Not sorted under doc for several reasons (e.g. frequent use => quicker access)
     */
   cookie: {
     set: (cookieName, cookieValue, expirationDays) => {
@@ -31,7 +32,7 @@ const jm8 = {
     },
   },
   /*
-    Description Goes Here
+    Shortcuts for Document Functionality
     */
   doc: {
     queryString: {
