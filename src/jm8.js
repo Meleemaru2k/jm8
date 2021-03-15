@@ -49,6 +49,7 @@ const jm8 = {
           return undefined;
         }
       },
+    },
   },
   /*
     Description Goes Here
@@ -65,6 +66,28 @@ const jm8 = {
         return link;
       } else {
         return "//" + link;
+      }
+    },
+  },
+  checkFormat: {
+    email: (email) => {},
+    phonenumer: (phonenumber) => {
+      if (typeof phonenumber !== "string") {
+        try {
+          phonenumber = phonenumber.toString();
+        } catch {
+          return false;
+        }
+      }
+      phonenumber = phonenumber.replace(/\s/g, "");
+
+      const regex = /(?:^(?:\+\d{2}\d{3,16}|\d{5,18})$)/gm;
+      let match = regex.exec(phonenumber);
+
+      if (match != undefined) {
+        return true;
+      } else {
+        return false;
       }
     },
   },
