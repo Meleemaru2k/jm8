@@ -52,9 +52,10 @@ const jm8 = {
     },
   },
   /*
-    Description Goes Here
+    Methods that convert something. Not formatting per se.
   */
   convert: {
+    //Converts a link with no Http/https present to a link that can be used in href tags
     linkFormatter: () => {
       let isHttps = link.indexOf("https://");
       let isHttp = link.indexOf("http://");
@@ -69,39 +70,64 @@ const jm8 = {
       }
     },
   },
+  /*
+    Checks for various formats, like email, phonenumber, isDigits...
+  */
   checkFormat: {
-    email: (email) => {},
+    //Very simple check, intended most basic frontend validation.
+    //https://tools.ietf.org/html/rfc3696 for further reference
+    email: (email) => {
+      if (typeof email !== "string") {
+        return undefined;
+      }
+
+      email = email.replace(/\s/g, "");
+
+      const regex = /^\S+@\S+\.\S{2,6}$/gm;
+
+      let match = regex.exec(email);
+      if (match != undefined) {
+        return email;
+      } else {
+        return undefined;
+      }
+    },
+    //Very simple check, intended basic frontend validation. Need to check for international values (minmax-length)
     phonenumer: (phonenumber) => {
       if (typeof phonenumber !== "string") {
         try {
           phonenumber = phonenumber.toString();
         } catch {
-          return false;
+          return undefined;
         }
       }
       phonenumber = phonenumber.replace(/\s/g, "");
 
       const regex = /(?:^(?:\+\d{2}\d{3,16}|\d{5,18})$)/gm;
-      let match = regex.exec(phonenumber);
 
+      let match = regex.exec(phonenumber);
       if (match != undefined) {
-        return true;
+        return phonenumber;
       } else {
-        return false;
+        return undefined;
       }
     },
+    isDigits: (digits) => {},
   },
+  /*
+  General Purpose function.
+  */
   j: {
     sleep: (ms) => {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
   },
   /*
-    Description Goes Here
+    Functions that get information or manipulate the browsers window (scroll, zoom, other...)
   */
   window: {
-    scrollToId: (id, offset = 0) => {
-      let elemScrollY = document.getElementById(id).getBoundingClientRect().top;
+    scrollToElement: (element, offset = 0) => {
+      let elemScrollY = element.getBoundingClientRect().top;
       let bodyY = document.body.getBoundingClientRect().top;
       window.scrollTo({
         top: elemScrollY - bodyY - offset,
