@@ -72,6 +72,7 @@ const jm8 = {
   },
   /*
     Checks for various formats, like email, phonenumber, isDigits...
+    Most checks remove blank/empty characters
   */
   checkFormat: {
     //Very simple check, intended most basic frontend validation.
@@ -112,7 +113,25 @@ const jm8 = {
         return undefined;
       }
     },
-    isDigits: (digits) => {},
+    isDigits: (digits) => {
+      if (typeof digits !== "string") {
+        try {
+          digits = digits.toString();
+        } catch {
+          return undefined;
+        }
+      }
+      digits = digits.replace(/\s/g, "");
+
+      const regex = /^\d+$/gm;
+
+      let match = regex.exec(digits);
+      if (match != undefined) {
+        return digits;
+      } else {
+        return undefined;
+      }
+    },
   },
   /*
   General Purpose function.
@@ -148,6 +167,7 @@ const jm8 = {
         return [sx, sy];
       }
     },
-    //getElementScroll(){}
+    //getElementScroll(){},
+    //positionElementAbsolute(){},
   },
 };
